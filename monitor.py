@@ -5,6 +5,8 @@ import requests
 import feedparser
 from datetime import datetime
 import json  # <--- AGREGA ESTA LÍNEA AQUÍ
+import csv
+import os
 
 # ==========================================
 # CONFIGURACIÓN Y VARIABLES DE ENTORNO
@@ -172,6 +174,23 @@ def guardar_datos_tablero(defcon, score, triggers):
         json.dump(datos, f, ensure_ascii=False, indent=4)
 
 # ==========================================
+# GUARDADO DE MEMORIA HISTÓRICA (NUEVO)
+# ==========================================
+def guardar_historial_csv(defcon, score):
+    """Guarda un registro continuo para la futura IA predictiva."""
+    archivo_csv = "historial.csv"
+    archivo_existe = os.path.isfile(archivo_csv)
+    
+    with open(archivo_csv, mode="a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        if not archivo_existe:
+            writer.writerow(["timestamp", "defcon", "score"])
+        
+        timestamp_actual = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+        writer.writerow([timestamp_actual, defcon, score])
+
+
+# ==========================================
 # EJECUCIÓN PRINCIPAL
 # ==========================================
 if __name__ == "__main__":
@@ -196,3 +215,6 @@ if __name__ == "__main__":
 
 # 4. Guardar datos para el tablero de Streamlit  <--- AGREGA ESTO
     guardar_datos_tablero(current_defcon, total_score, all_triggers)
+
+# 5. Guardar memoria histórica
+    guardar_historial_csv(current_defcon, total_score)
