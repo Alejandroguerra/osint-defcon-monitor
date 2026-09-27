@@ -81,7 +81,8 @@ def scan_air_traffic():
                 triggers.append(f"[VIP JET] Movimiento detectado: {icao24}")
                 
             # 3. Detectar logística militar en masa
-           if callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
+                
+            if callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
                 logistics_count += 1
                 
         # Calcular enjambres logísticos (cada 3 aviones suman peso)
