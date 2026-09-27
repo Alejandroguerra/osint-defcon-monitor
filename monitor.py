@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 import requests
 import feedparser
 from datetime import datetime
+import json  # <--- AGREGA ESTA LÍNEA AQUÍ
 
 # ==========================================
 # CONFIGURACIÓN Y VARIABLES DE ENTORNO
@@ -154,6 +155,20 @@ def dispatch_alert(defcon, score, triggers):
         print(f"Error crítico enviando correo: {e}")
 
 # ==========================================
+# GUARDADO PARA EL TABLERO WEB
+# ==========================================
+def guardar_datos_tablero(defcon, score, triggers):
+    """Guarda los resultados en un archivo JSON para que Streamlit los lea."""
+    datos = {
+        "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+        "defcon": defcon,
+        "score": score,
+        "triggers": triggers
+    }
+    with open("datos.json", "w", encoding="utf-8") as f:
+        json.dump(datos, f, ensure_ascii=False, indent=4)
+
+# ==========================================
 # EJECUCIÓN PRINCIPAL
 # ==========================================
 if __name__ == "__main__":
@@ -174,3 +189,7 @@ if __name__ == "__main__":
     # 3. Calcular estado y alertar
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
+
+
+# 4. Guardar datos para el tablero de Streamlit  <--- AGREGA ESTO
+    guardar_datos_tablero(current_defcon, total_score, all_triggers)
