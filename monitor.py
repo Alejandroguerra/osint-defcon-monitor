@@ -45,9 +45,11 @@ KEYWORDS_CRITICAL = ["nuclear", "strike", "state of war", "defcon", "immediate r
 
 OFFICIAL_FEEDS = {
     "DoD USA": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.aspx?ContentType=400&Site=945",
-    "MoD UK": "https://www.gov.uk/government/organisations/ministry-of-defence.atom"
+    "MoD UK": "https://www.gov.uk/government/organisations/ministry-of-defence.atom",
+    "MoD France": "https://www.defense.gouv.fr/rss.xml",
+    "Russia TASS (State)": "https://tass.com/rss/v2.xml",
+    "China Xinhua (State)": "http://www.xinhuanet.com/english/rss/worldrss.xml"
 }
-
 # ==========================================
 # FUNCIONES DE RECOLECCIÓN
 # ==========================================
