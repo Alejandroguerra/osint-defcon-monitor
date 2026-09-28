@@ -20,11 +20,13 @@ RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL")
 # ==========================================
 # La suma de puntos determinará el nivel de alerta
 SCORE_WEIGHTS = {
-    "VIP_JET_UNUSUAL": 10,      # Un jet VIP se mueve
-    "MIL_LOGISTICS": 5,         # Por cada avión logístico pesado detectado
-    "MIL_DOOMSDAY": 50,         # Avión de mando estratégico (E-4B, Tu-214PU)
-    "RSS_WARNING": 20,          # Palabras clave de movilización/evacuación
-    "RSS_CRITICAL": 50          # Palabras clave inminentes (nuclear, ataque)
+    "RSS_CRITICAL": 10,      # Declaración aislada (bajo peso por sí sola)
+    "RSS_WARNING": 2,        # Advertencia diplomática aislada
+    "MIL_DOOMSDAY": 15,      # Avión de mando aislado
+    "MIL_STRATEGIC_BOMBER": 25, # Bombardero estratégico aislado
+    "VIP_JET_UNUSUAL": 15,   # Éxodo VIP aislado
+    "MIL_LOGISTICS": 2,      # Logística común aislada
+    "CORRELATION_BONUS": 60  # 🔴 ¡EL GOLPE MAESTRO! Bono masivo si hay Declaración + Movimiento simultáneo
 }
 
 def get_defcon_level(score):
