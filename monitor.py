@@ -6,7 +6,7 @@ import feedparser
 from datetime import datetime
 import json  # <--- AGREGA ESTA LÍNEA AQUÍ
 import csv
-import os
+
 
 # ==========================================
 # CONFIGURACIÓN Y VARIABLES DE ENTORNO
@@ -29,7 +29,18 @@ SCORE_WEIGHTS = {
     "MIL_LOGISTICS_HEAVY": 5, # Transporte masivo
     "CORRELATION_BONUS": 50   # Bono por convergencia
 }
+# Listas globales de activos especiales (necesarias para evitar el NameError)
+STRATEGIC_ASSETS = [
+    "AE11EB", # Códigos ICAO de ejemplo para bombarderos o activos clave
+]
 
+DOOMSDAY_PLANES = [
+    # Agrega aquí los códigos ICAO de aviones de mando estratégico si los tienes
+]
+
+VIP_JETS = [
+    # Agrega aquí los códigos ICAO de jets privados o flotas de élite
+]
 def get_defcon_level(score):
     """Calcula el nivel de DEFCON con umbrales altamente cautos para evitar cualquier aviso prematuro."""
     if score >= 120:
