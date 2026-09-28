@@ -205,16 +205,26 @@ if __name__ == "__main__":
     pts_air, trg_air = scan_air_traffic()
     pts_rss, trg_rss = scan_rss_feeds()
     
-    # 2. Consolidar la matriz
+# ==========================================
+    # 2. Consolidar la matriz y aplicar correlación táctica
+    # ==========================================
     total_score = pts_air + pts_rss
     all_triggers.extend(trg_air)
     all_triggers.extend(trg_rss)
-    
+
+    # Detectar si hay cruce simultáneo (Declaración crítica + Movimiento militar activo)
+    hubo_declaracion_critica = any("CRÍTICO" in t for t in trg_rss)
+    hubo_movimiento_militar = pts_air > 0
+
+    if hubo_declaracion_critica and hubo_movimiento_militar:
+        total_score += SCORE_WEIGHTS["CORRELATION_BONUS"]
+        all_triggers.insert(0, "🚨 [CORRELACIÓN ESTRATÉGICA CRÍTICA] Convergencia detectada: Declaración oficial agresiva respaldada por actividad militar en curso.")
+
+    # ==========================================
     # 3. Calcular estado y alertar
+    # ==========================================
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
-
-
 # 4. Guardar datos para el tablero de Streamlit  <--- AGREGA ESTO
     guardar_datos_tablero(current_defcon, total_score, all_triggers)
 
