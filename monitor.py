@@ -31,13 +31,17 @@ SCORE_WEIGHTS = {
 }
 
 def get_defcon_level(score):
-    """Convierte el puntaje matemático a un nivel DEFCON (5 a 1)."""
-    if score >= 100: return 1
-    if score >= 50:  return 2
-    if score >= 25:  return 3
-    if score >= 10:  return 4
-    return 5
-
+    """Calcula el nivel de DEFCON con umbrales altamente cautos para evitar cualquier aviso prematuro."""
+    if score >= 120:
+        return 1  # 🔴 DEFCON 1: Emergencia extrema e inobjetable (Exige convergencia masiva)
+    elif score >= 95:
+        return 2  # 🟠 DEFCON 2: Escalada grave confirmada 
+    elif score >= 70:
+        return 3  # 🟡 DEFCON 3: Prevención seria (Primer y único nivel que envía correo de alerta)
+    elif score >= 35:
+        return 4  # 🔵 DEFCON 4: Monitoreo superior de rutina
+    else:
+        return 5  # 🟢 DEFCON 5: Paz / Operación completamente normal
 # ==========================================
 # DICCIONARIOS DE INTELIGENCIA
 # ==========================================
