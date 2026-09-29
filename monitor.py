@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 import requests
 import feedparser
 from datetime import datetime
-import json  # <--- AGREGA ESTA LÍNEA AQUÍ
+import json  
 import csv
 
 
@@ -156,8 +156,40 @@ def evaluar_flotas_prioritarias(aviones_detectados):
     return puntos_aereos, triggers_aereos
 
 
+# ==========================================
+# NUEVO: FILTRO DE CONTEXTO RELACIONAL (DOBLE VERIFICACIÓN)
+# ==========================================
+def analizar_contexto_titular(titulo):
+    """Analiza el titular buscando relaciones estrictas: Actor Clave + Ataque, descartando diplomacia."""
+    titulo_lower = titulo.lower()
+    
+    # 1. Filtro estricto de exclusión por tono diplomático o amistoso
+    frases_amistosas = ["friend", "peace", "talks", "summit", "dialogue", "ceasefire", "agreement", "calls ... friend"]
+    if any(frase in titulo_lower for frase in frases_amistosas) or "friend" in titulo_lower:
+        return 0, None  
+        
+    # 2. Actores clave obligatorios
+    actores = ["russia", "iran", "ukraine", "israel", "china", "us", "kremlin", "tehran"]
+    tiene_actor = any(actor in titulo_lower for actor in actores)
+    
+    # 3. Acciones ofensivas de envergadura obligatorias
+    acciones_ofensivas = ["strike", "massive attack", "bombardment", "missile barrage", "offensive", "launch", "invasion"]
+    tiene_ataque = any(accion in titulo_lower for accion in acciones_ofensivas)
+    
+    # 4. Validación cruzada de contenido crítico
+    if tiene_actor and tiene_ataque:
+        return SCORE_WEIGHTS["RSS_CRITICAL"], f"[CRÍTICO - RSS] Convergencia Actor-Ataque detectada: {titulo}"
+        
+    # 5. Advertencias secundarias
+    palabras_warning = ["tension", "warning", "mobilization", "border buildup"]
+    if any(w in titulo_lower for w in palabras_warning):
+        return SCORE_WEIGHTS["RSS_WARNING"], f"[ADVERTENCIA - RSS] Tensión menor: {titulo}"
+        
+    return 0, None
+
+
 def scan_rss_feeds():
-    """Analiza noticias oficiales y retorna puntos y hallazgos."""
+    """Analiza noticias oficiales aplicando el filtro relacional de contexto."""
     points = 0
     triggers = []
     
@@ -165,18 +197,11 @@ def scan_rss_feeds():
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:3]: # Revisar las últimas 3 noticias
-                text = f"{entry.title} {entry.get('summary', '')}".lower()
-                
-                # Buscar palabras críticas (Nivel 1/2)
-                if any(k in text for k in KEYWORDS_CRITICAL):
-                    points += SCORE_WEIGHTS["RSS_CRITICAL"]
-                    triggers.append(f"[CRÍTICO - {source}] {entry.title}")
-                    
-                # Buscar palabras de advertencia (Nivel 3/4)
-                elif any(k in text for k in KEYWORDS_WARNING):
-                    points += SCORE_WEIGHTS["RSS_WARNING"]
-                    triggers.append(f"[ADVERTENCIA - {source}] {entry.title}")
-                    
+                # Aplicamos la nueva función de análisis contextual estricto
+                pts_noticia, trigger_noticia = analizar_contexto_titular(entry.title)
+                if pts_noticia > 0 and trigger_noticia:
+                    points += pts_noticia
+                    triggers.append(f"[{source}] {trigger_noticia}")
         except Exception:
             continue
             
@@ -249,40 +274,47 @@ def guardar_historial_csv(defcon, score):
 
 
 # ==========================================
-# EJECUCIÓN PRINCIPAL
+# EJECUCIÓN PRINCIPAL CON DOBLE VERIFICACIÓN
 # ==========================================
 if __name__ == "__main__":
-    print("Iniciando barrido OSINT...")
+    print("Iniciando barrido OSINT con doble verificación...")
     
     total_score = 0
     all_triggers = []
     
-    # 1. Recolectar datos y puntajes
+    # 1. Recolectar datos y puntajes independientes
     pts_air, trg_air = scan_air_traffic()
     pts_rss, trg_rss = scan_rss_feeds()
     
-# ==========================================
-    # 2. Consolidar la matriz y aplicar correlación táctica
-    # ==========================================
-    total_score = pts_air + pts_rss
     all_triggers.extend(trg_air)
     all_triggers.extend(trg_rss)
 
-    # Detectar si hay cruce simultáneo (Declaración crítica + Movimiento militar activo)
+    # ==========================================
+    # 2. Consolidación de matriz con regla de doble factor
+    # ==========================================
+    pts_rss_ajustado = pts_rss * 0.5  # La retórica sola pierde peso masivo
+    hubo_movimiento_fisico = pts_air > 0
     hubo_declaracion_critica = any("CRÍTICO" in t for t in trg_rss)
-    hubo_movimiento_militar = pts_air > 0
 
-    if hubo_declaracion_critica and hubo_movimiento_militar:
-        total_score += SCORE_WEIGHTS["CORRELATION_BONUS"]
-        all_triggers.insert(0, "🚨 [CORRELACIÓN ESTRATÉGICA CRÍTICA] Convergencia detectada: Declaración oficial agresiva respaldada por actividad militar en curso.")
+    if hubo_declaracion_critica and hubo_movimiento_fisico:
+        # Convergencia real: Declaración oficial respaldada por despliegue físico activo
+        total_score = pts_rss + pts_air + SCORE_WEIGHTS["CORRELATION_BONUS"]
+        all_triggers.insert(0, "🚨 [DOBLE VERIFICACIÓN CONFIRMADA] Declaración oficial respaldada por actividad física simultánea en el radar.")
+    elif hubo_declaracion_critica and not hubo_movimiento_fisico:
+        # Solo retórica sin movimiento físico: Se limita el puntaje para evitar falsas alarmas
+        total_score = min(pts_rss_ajustado + pts_air, 15) 
+        all_triggers.append("ℹ️ [RETORICA SIN RESPALDO FÍSICO] Declaración detectada sin correlación de movimiento militar en el ciclo.")
+    else:
+        total_score = pts_rss + pts_air
 
     # ==========================================
     # 3. Calcular estado y alertar
     # ==========================================
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
-# 4. Guardar datos para el tablero de Streamlit  <--- AGREGA ESTO
+    
+    # 4. Guardar datos para el tablero de Streamlit
     guardar_datos_tablero(current_defcon, total_score, all_triggers)
 
-# 5. Guardar memoria histórica
+    # 5. Guardar memoria histórica
     guardar_historial_csv(current_defcon, total_score)
