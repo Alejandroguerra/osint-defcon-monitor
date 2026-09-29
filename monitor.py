@@ -245,13 +245,15 @@ def dispatch_alert(defcon, score, triggers):
 # ==========================================
 # GUARDADO PARA EL TABLERO WEB
 # ==========================================
-def guardar_datos_tablero(defcon, score, triggers):
-    """Guarda los resultados en un archivo JSON para que Streamlit los lea."""
+
+def guardar_datos_tablero(defcon, score, triggers, aviones_activos):
+    """Guarda los resultados y las coordenadas de vuelo para el mapa interactivo."""
     datos = {
         "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
         "defcon": defcon,
         "score": score,
-        "triggers": triggers
+        "triggers": triggers,
+        "aviones_mapa": aviones_activos  # Lista con lat, lon y nombre/callsign
     }
     with open("datos.json", "w", encoding="utf-8") as f:
         json.dump(datos, f, ensure_ascii=False, indent=4)
