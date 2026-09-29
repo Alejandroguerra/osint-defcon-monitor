@@ -73,11 +73,13 @@ OFFICIAL_FEEDS = {
 # ==========================================
 # FUNCIONES DE RECOLECCIÓN
 # ==========================================
+
 def scan_air_traffic():
-    """Analiza el tráfico aéreo clasificando aeronaves y exigiendo altos umbrales en zonas de conflicto."""
+    """Analiza el tráfico aéreo clasificando aeronaves y priorizando flotas clave."""
     points = 0
     triggers = []
     logistics_count = 0
+    aviones_detectados = []
     
     try:
         url = "https://opensky-network.org/api/states/all"
@@ -97,6 +99,9 @@ def scan_air_traffic():
             if on_ground:
                 continue
                 
+            # Guardamos el avión detectado en la lista para evaluarlo
+            aviones_detectados.append({"icao24": icao24, "callsign": callsign})
+            
             # 1. Activos Estratégicos Superiores (Bombarderos / Mando)
             if icao24 in STRATEGIC_ASSETS or icao24 in DOOMSDAY_PLANES:
                 points += SCORE_WEIGHTS["MIL_STRATEGIC_BOMBER"]
@@ -107,12 +112,12 @@ def scan_air_traffic():
                 points += SCORE_WEIGHTS["MIL_AWACS_TANKER"]
                 triggers.append(f"[ALERTA - SOPORTE TÁCTICO] Activo de reabastecimiento o control aéreo detectado: {callsign}")
                 
-            # 3. Éxodo VIP (Con peso máximo de 45 puntos)
+            # 3. Éxodo VIP
             elif icao24 in VIP_JETS:
                 points += SCORE_WEIGHTS["VIP_JET_UNUSUAL"]
                 triggers.append(f"[VIP - ÉXODO] Movimiento de avión privado de alto nivel: {icao24} ({callsign})")
                 
-            # 4. Logística Militar Común (Umbral elevado: solo suma si hay concentración masiva >12)
+            # 4. Logística Militar Común
             elif callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
                 logistics_count += 1
                 
@@ -120,10 +125,37 @@ def scan_air_traffic():
             points += SCORE_WEIGHTS["MIL_LOGISTICS_HEAVY"]
             triggers.append(f"[LOGÍSTICA PESADA] Concentración masiva anómala de transporte militar: {logistics_count} unidades simultáneas")
             
+        # Ejecutamos la evaluación detallada de flotas prioritarias
+        pts_flotas, trg_flotas = evaluar_flotas_prioritarias(aviones_detectados)
+        points += pts_flotas
+        triggers.extend(trg_flotas)
+        
     except Exception as e:
         triggers.append(f"[ERROR] Fallo en API aérea: {str(e)}")
         
     return points, triggers
+
+def evaluar_flotas_prioritarias(aviones_detectados):
+    """Evalúa flotas prioritarias (VIPs y activos estratégicos) frente al umbral de normalidad."""
+    puntos_aereos = 0
+    triggers_aereos = []
+    
+    # Filtrar aeronaves de alto valor detectadas en el espacio aéreo activo
+    vip_encontrados = [av for av in aviones_detectados if av.get("icao24") in VIP_JETS]
+    estrategicos_encontrados = [av for av in aviones_detectados if av.get("icao24") in STRATEGIC_ASSETS]
+    
+    # Asignar peso prioritario si se detectan anomalías en flotas ejecutivas o gubernamentales
+    if len(vip_encontrados) > 0:
+        puntos_aereos += SCORE_WEIGHTS["VIP_JET_UNUSUAL"] * len(vip_encontrados)
+        triggers_aereos.append(f"🚨 [FLOTA VIP] Movimiento crítico detectado de aeronaves de élite: {len(vip_encontrados)} unidad(es).")
+        
+    if len(estrategicos_encontrados) > 0:
+        puntos_aereos += SCORE_WEIGHTS["MIL_STRATEGIC_BOMBER"] * len(estrategicos_encontrados)
+        triggers_aereos.append(f"🚨 [ACTIVO ESTRATÉGICO] Despliegue de bombardero/mando detectado: {len(estrategicos_encontrados)} unidad(es).")
+        
+    return puntos_aereos, triggers_aereos
+
+
 def scan_rss_feeds():
     """Analiza noticias oficiales y retorna puntos y hallazgos."""
     points = 0
