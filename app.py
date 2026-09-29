@@ -16,11 +16,13 @@ try:
         total_score = data.get("score", 0)
         triggers = data.get("triggers", [])
         timestamp = data.get("timestamp", "Desconocido")
+        aviones_mapa = data.get("aviones_mapa", [])
 except Exception:
     current_defcon = 5
     total_score = 0
     triggers = ["Esperando primer ciclo de ejecución..."]
     timestamp = "N/A"
+    aviones_mapa = []
 
 # Panel Superior de Métricas
 col1, col2, col3 = st.columns(3)
@@ -51,14 +53,18 @@ st.markdown("---")
 # ==========================================
 # MAPA TÁCTICO INTERACTIVO (Estilo EWS)
 # ==========================================
-st.subheader("🗺️ Mapa Táctico Global de Amenazas y Flotas Prioritarias")
+st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
 # Coordenadas base de los teatros de operaciones monitoreados
-data_mapa = pd.DataFrame([
+teatros_base = [
     {"lat": 55.75, "lon": 37.61, "name": "Teatro Este (Rusia / Ucrania)", "tipo": "Crítico"},
     {"lat": 33.31, "lon": 44.36, "name": "Teatro Medio Oriente (Irán / Golfo)", "tipo": "Monitoreo"},
     {"lat": 39.90, "lon": 116.40, "name": "Teatro Indo-Pacífico (China)", "tipo": "Observación"}
-])
+]
+
+# Fusionar teatros base con aviones activos detectados en tiempo real
+puntos_totales = teatros_base + aviones_mapa
+data_mapa = pd.DataFrame(puntos_totales)
 
 # Capa visual interactiva con Pydeck
 capa_mapa = pdk.Layer(
@@ -66,7 +72,7 @@ capa_mapa = pdk.Layer(
     data_mapa,
     get_position="[lon, lat]",
     get_color="[200, 30, 0, 180]",
-    get_radius=200000, # Radio de cobertura visual en metros
+    get_radius=150000, # Radio de cobertura visual en metros
     pickable=True,
     auto_highlight=True,
 )
@@ -83,5 +89,5 @@ view_state = pdk.ViewState(
 st.pydeck_chart(pdk.Deck(
     layers=[capa_mapa],
     initial_view_state=view_state,
-    tooltip={"text": "Ubicación: {name}\nEstado: {tipo}"}
+    tooltip={"text": "Ubicación/Objetivo: {name}\nTipo: {tipo}"}
 ))
