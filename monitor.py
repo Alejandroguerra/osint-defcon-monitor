@@ -74,48 +74,72 @@ OFFICIAL_FEEDS = {
 # FUNCIONES DE RECOLECCIÓN
 # ==========================================
 
+# ==========================================
+# FUNCIONES DE RECOLECCIÓN ACTUALIZADAS
+# ==========================================
 def scan_air_traffic():
-    """Analiza el tráfico aéreo clasificando aeronaves y priorizando flotas clave."""
+    """Analiza el tráfico aéreo, clasifica aeronaves y extrae coordenadas para el mapa táctico."""
     points = 0
     triggers = []
     logistics_count = 0
     aviones_detectados = []
+    aviones_mapa = []  # Lista para recolectar las coordenadas geográficas de los objetivos
     
     try:
         url = "https://opensky-network.org/api/states/all"
         response = requests.get(url, timeout=15)
         if response.status_code != 200:
-            return 0, []
+            return 0, [], []
             
         states = response.json().get("states", [])
         if not states:
-            return 0, []
+            return 0, [], []
             
         for s in states:
             icao24 = s[0]
             callsign = s[1].strip() if s[1] else ""
+            lon = s[5]  # Longitud geográfica
+            lat = s[6]  # Latitud geográfica
             on_ground = s[8]
             
-            if on_ground:
+            # Omitir aeronaves en tierra o sin coordenadas válidas
+            if on_ground or lat is None or lon is None:
                 continue
                 
-            # Guardamos el avión detectado en la lista para evaluarlo
             aviones_detectados.append({"icao24": icao24, "callsign": callsign})
             
             # 1. Activos Estratégicos Superiores (Bombarderos / Mando)
             if icao24 in STRATEGIC_ASSETS or icao24 in DOOMSDAY_PLANES:
                 points += SCORE_WEIGHTS["MIL_STRATEGIC_BOMBER"]
                 triggers.append(f"[CRÍTICO - AIRE] Activo estratégico de alto valor detectado: {icao24} ({callsign})")
+                aviones_mapa.append({
+                    "lat": lat,
+                    "lon": lon,
+                    "name": f"Estratégico: {icao24} ({callsign})",
+                    "tipo": "Crítico - Aire"
+                })
                 
             # 2. Aviones de Alerta Temprana (AWACS) o Cisternas
             elif callsign.startswith(("REACH", "RSV", "COBRA", "DRAGON")):
                 points += SCORE_WEIGHTS["MIL_AWACS_TANKER"]
                 triggers.append(f"[ALERTA - SOPORTE TÁCTICO] Activo de reabastecimiento o control aéreo detectado: {callsign}")
+                aviones_mapa.append({
+                    "lat": lat,
+                    "lon": lon,
+                    "name": f"Soporte Táctico: {callsign}",
+                    "tipo": "Monitoreo"
+                })
                 
             # 3. Éxodo VIP
             elif icao24 in VIP_JETS:
                 points += SCORE_WEIGHTS["VIP_JET_UNUSUAL"]
                 triggers.append(f"[VIP - ÉXODO] Movimiento de avión privado de alto nivel: {icao24} ({callsign})")
+                aviones_mapa.append({
+                    "lat": lat,
+                    "lon": lon,
+                    "name": f"VIP: {icao24} ({callsign})",
+                    "tipo": "Crítico - VIP"
+                })
                 
             # 4. Logística Militar Común
             elif callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
@@ -125,15 +149,10 @@ def scan_air_traffic():
             points += SCORE_WEIGHTS["MIL_LOGISTICS_HEAVY"]
             triggers.append(f"[LOGÍSTICA PESADA] Concentración masiva anómala de transporte militar: {logistics_count} unidades simultáneas")
             
-        # Ejecutamos la evaluación detallada de flotas prioritarias
-        pts_flotas, trg_flotas = evaluar_flotas_prioritarias(aviones_detectados)
-        points += pts_flotas
-        triggers.extend(trg_flotas)
-        
     except Exception as e:
         triggers.append(f"[ERROR] Fallo en API aérea: {str(e)}")
         
-    return points, triggers
+    return points, triggers, aviones_mapa
 
 def evaluar_flotas_prioritarias(aviones_detectados):
     """Evalúa flotas prioritarias (VIPs y activos estratégicos) frente al umbral de normalidad."""
