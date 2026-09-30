@@ -245,18 +245,21 @@ def dispatch_alert(defcon, score, triggers):
 # ==========================================
 # GUARDADO PARA EL TABLERO WEB
 # ==========================================
-
-def guardar_datos_tablero(defcon, score, triggers, aviones_activos):
-    """Guarda los resultados y las coordenadas de vuelo para el mapa interactivo."""
+def guardar_datos_tablero(defcon, score, triggers, aviones_mapa=None):
+    """Guarda los resultados en un archivo JSON para que Streamlit los lea."""
+    if aviones_mapa is None:
+        aviones_mapa = []
+        
     datos = {
         "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
         "defcon": defcon,
         "score": score,
         "triggers": triggers,
-        "aviones_mapa": aviones_activos  # Lista con lat, lon y nombre/callsign
+        "aviones_mapa": aviones_mapa
     }
     with open("datos.json", "w", encoding="utf-8") as f:
         json.dump(datos, f, ensure_ascii=False, indent=4)
+
 
 # ==========================================
 # GUARDADO DE MEMORIA HISTÓRICA (NUEVO)
@@ -291,9 +294,6 @@ if __name__ == "__main__":
     all_triggers.extend(trg_air)
     all_triggers.extend(trg_rss)
 
-    # Al final del __main__ de monitor.py:
-    guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_detectados_para_mapa)
-
     # ==========================================
     # 2. Consolidación de matriz con regla de doble factor
     # ==========================================
@@ -302,24 +302,22 @@ if __name__ == "__main__":
     hubo_declaracion_critica = any("CRÍTICO" in t for t in trg_rss)
 
     if hubo_declaracion_critica and hubo_movimiento_fisico:
-        # Convergencia real: Declaración oficial respaldada por despliegue físico activo
         total_score = pts_rss + pts_air + SCORE_WEIGHTS["CORRELATION_BONUS"]
         all_triggers.insert(0, "🚨 [DOBLE VERIFICACIÓN CONFIRMADA] Declaración oficial respaldada por actividad física simultánea en el radar.")
     elif hubo_declaracion_critica and not hubo_movimiento_fisico:
-        # Solo retórica sin movimiento físico: Se limita el puntaje para evitar falsas alarmas
         total_score = min(pts_rss_ajustado + pts_air, 15) 
         all_triggers.append("ℹ️ [RETORICA SIN RESPALDO FÍSICO] Declaración detectada sin correlación de movimiento militar en el ciclo.")
     else:
         total_score = pts_rss + pts_air
 
-# ==========================================
+    # ==========================================
     # 3. Calcular estado y alertar
     # ==========================================
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
     
-    # 4. Guardar datos para el tablero de Streamlit (Pasando la lista vacía o de aviones)
+    # 4. Guardar datos para el tablero de Streamlit
     guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_mapa=[])
 
-    # 5. Guardar memoria histórica
+    # 5. Guardar memoria histórica en CSV
     guardar_historial_csv(current_defcon, total_score)
