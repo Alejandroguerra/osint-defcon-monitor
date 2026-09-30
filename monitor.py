@@ -312,14 +312,14 @@ if __name__ == "__main__":
     else:
         total_score = pts_rss + pts_air
 
-    # ==========================================
+# ==========================================
     # 3. Calcular estado y alertar
     # ==========================================
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
     
-    # 4. Guardar datos para el tablero de Streamlit
-    guardar_datos_tablero(current_defcon, total_score, all_triggers)
+    # 4. Guardar datos para el tablero de Streamlit (Pasando la lista vacía o de aviones)
+    guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_mapa=[])
 
     # 5. Guardar memoria histórica
     guardar_historial_csv(current_defcon, total_score)
