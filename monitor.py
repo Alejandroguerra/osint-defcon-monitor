@@ -291,6 +291,9 @@ if __name__ == "__main__":
     all_triggers.extend(trg_air)
     all_triggers.extend(trg_rss)
 
+    # Al final del __main__ de monitor.py:
+    guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_detectados_para_mapa)
+
     # ==========================================
     # 2. Consolidación de matriz con regla de doble factor
     # ==========================================
