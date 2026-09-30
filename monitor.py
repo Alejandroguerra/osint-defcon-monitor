@@ -306,8 +306,8 @@ if __name__ == "__main__":
     total_score = 0
     all_triggers = []
     
-    # 1. Recolectar datos y puntajes independientes
-    pts_air, trg_air = scan_air_traffic()
+    # 1. Recolectar datos, puntajes y coordenadas del mapa
+    pts_air, trg_air, aviones_mapa = scan_air_traffic()
     pts_rss, trg_rss = scan_rss_feeds()
     
     all_triggers.extend(trg_air)
@@ -316,7 +316,7 @@ if __name__ == "__main__":
     # ==========================================
     # 2. Consolidación de matriz con regla de doble factor
     # ==========================================
-    pts_rss_ajustado = pts_rss * 0.5  # La retórica sola pierde peso masivo
+    pts_rss_ajustado = pts_rss * 0.5  
     hubo_movimiento_fisico = pts_air > 0
     hubo_declaracion_critica = any("CRÍTICO" in t for t in trg_rss)
 
@@ -335,8 +335,8 @@ if __name__ == "__main__":
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
     
-    # 4. Guardar datos para el tablero de Streamlit
-    guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_mapa=[])
+    # 4. Guardar datos para el tablero de Streamlit (Pasando los aviones reales detectados)
+    guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_mapa=aviones_mapa)
 
     # 5. Guardar memoria histórica en CSV
     guardar_historial_csv(current_defcon, total_score)
