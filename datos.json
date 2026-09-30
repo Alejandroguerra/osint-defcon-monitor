@@ -1,19 +1,16 @@
 {
-    "timestamp": "2026-09-30 14:10:44",
-    "defcon": 2,
-    "score": 105,
+    "timestamp": "2026-09-30 19:21:20",
+    "defcon": 5,
+    "score": 30,
     "triggers": [
-        "🚨 [DOBLE VERIFICACIÓN CONFIRMADA] Declaración oficial respaldada por actividad física simultánea en el radar.",
-        "[CRÍTICO - AIRE] Activo estratégico de alto valor detectado: adfed5 (VALOR59)",
-        "[LOGÍSTICA PESADA] Concentración masiva anómala de transporte militar: 15 unidades simultáneas",
-        "[Russia TASS (State)] [CRÍTICO - RSS] Convergencia Actor-Ataque detectada: Ukraine in panic over relentless Russian strikes on military targets — expert"
+        "[ALERTA - SOPORTE TÁCTICO] Activo de reabastecimiento o control aéreo detectado: COBRA62"
     ],
     "aviones_mapa": [
         {
-            "lat": 31.1159,
-            "lon": -85.0265,
-            "name": "Estratégico: adfed5 (VALOR59)",
-            "tipo": "Crítico - Aire"
+            "lat": 29.3688,
+            "lon": -97.6481,
+            "name": "Soporte Táctico: COBRA62",
+            "tipo": "Monitoreo"
         }
     ]
 }
