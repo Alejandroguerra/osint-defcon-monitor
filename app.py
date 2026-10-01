@@ -51,29 +51,49 @@ else:
 st.markdown("---")
 
 # ==========================================
-# MAPA TÁCTICO INTERACTIVO (Estilo EWS)
+# MAPA TÁCTICO INTERACTIVO (Estilo EWS Optimizado)
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
-# Coordenadas base de los teatros de operaciones y zonas de interés actualizadas
+# 1. Separar teatros base y limpiar/filtrar el exceso de aviones si son demasiados (opcional: mostrar un muestreo o limitar)
 teatros_base = [
-    {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Crítico"},
-    {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Monitoreo"},
-    {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Observación"},
-    {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Nacional"}
+    {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Crítico", "color": [255, 0, 0]},
+    {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Monitoreo", "color": [0, 100, 255]},
+    {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Observación", "color": [255, 128, 0]},
+    {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Nacional", "color": [0, 255, 128]}
 ]
 
-# Fusionar teatros base con aviones activos detectados en tiempo real
-puntos_totales = teatros_base + aviones_mapa
-data_mapa = pd.DataFrame(puntos_totales)
+# Adaptar puntos de aviones para que tengan color y tamaño sutiles
+aviones_formateados = []
+for av in aviones_mapa:
+    # Si es un avión crítico o VIP, lo destacamos; si es tráfico normal, lo hacemos tenue y pequeño
+    tipo_avion = av.get("tipo", "Monitoreo Aéreo")
+    if "Crítico" in tipo_avion or "VIP" in tipo_avion:
+        color = [255, 50, 50, 220]
+        radio = 80000
+    else:
+        color = [100, 150, 200, 80] # Azul muy tenue y semitransparente para no saturar
+        radio = 25000
+        
+    aviones_formateados.append({
+        "lat": av["lat"],
+        "lon": av["lon"],
+        "name": av["name"],
+        "tipo": tipo_avion,
+        "color": color,
+        "radius": radio
+    })
 
-# Capa visual interactiva con Pydeck
+# Unificar todo para el DataFrame
+data_mapa = pd.DataFrame(teatros_base + aviones_formateados)
+
+# Capa visual interactiva con Pydeck optimizada
 capa_mapa = pdk.Layer(
     "ScatterplotLayer",
     data_mapa,
     get_position="[lon, lat]",
-    get_color="[200, 30, 0, 180]",
-    get_radius=250000, # Radio de cobertura visual en metros
+    get_color="color",
+    get_radius="radius",
     pickable=True,
     auto_highlight=True,
 )
@@ -89,5 +109,5 @@ view_state = pdk.ViewState(
 st.pydeck_chart(pdk.Deck(
     layers=[capa_mapa],
     initial_view_state=view_state,
-    tooltip={"text": "Ubicación/Objetivo: {name}\nTipo: {tipo}"}
+    tooltip={"text": "Objetivo: {name}\nTipo: {tipo}"}
 ))
