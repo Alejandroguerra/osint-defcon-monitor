@@ -51,7 +51,7 @@ else:
 st.markdown("---")
 
 # ==========================================
-# MAPA TÁCTICO INTERACTIVO (Estilo EWS Optimizado)
+# MAPA TÁCTICO INTERACTIVO (Con Iconos de Aviones y Zonas Fijas)
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
@@ -65,7 +65,6 @@ teatros_fijos = [
 
 df_fijos = pd.DataFrame(teatros_fijos)
 
-# Capa para los círculos de las potencias y Chile
 capa_fijos = pdk.Layer(
     "ScatterplotLayer",
     df_fijos,
@@ -76,43 +75,51 @@ capa_fijos = pdk.Layer(
     auto_highlight=True,
 )
 
-# 2. Procesamiento de aviones utilizando los colores y tipos definidos en el JSON
+# 2. Procesamiento de aviones con IconLayer para que tengan forma de avión
+# Usaremos un icono público de avión en formato PNG
+icon_url = "https://cdn-icons-png.flaticon.com/512/723/723915.png"
+
 aviones_procesados = []
 for av in aviones_mapa:
     tipo = av.get("tipo", "Rutina")
-    color = av.get("color", [100, 180, 255, 120]) # Valor por defecto si no viene
     
-    # Asignar tamaño dinámico según el nivel de alerta
+    # Tamaño del icono según criticidad
     if tipo == "Crítico":
-        size = 40000
+        size = 35
     elif tipo == "Inusual":
-        size = 30000
+        size = 30
     else:
-        size = 12000
+        size = 18
 
     aviones_procesados.append({
         "lat": av["lat"],
         "lon": av["lon"],
         "name": av["name"],
         "tipo": tipo,
-        "color": color,
-        "radius": size
+        "size": size,
+        "icon_data": {
+            "url": icon_url,
+            "width": 128,
+            "height": 128,
+            "anchorY": 64
+        }
     })
 
 df_aviones = pd.DataFrame(aviones_procesados)
 
-# Capa de dispersión dinámica para los aviones
+# Capa de Iconos para los aviones
 capa_aviones = pdk.Layer(
-    "ScatterplotLayer",
+    "IconLayer",
     df_aviones,
     get_position="[lon, lat]",
-    get_color="color",
-    get_radius="radius",
+    get_icon="icon_data",
+    get_size="size",
+    size_scale=1,
     pickable=True,
     auto_highlight=True,
 )
 
-# Vista inicial centrada globalmente incluyendo los teatros clave y Chile
+# Vista inicial centrada globalmente
 view_state = pdk.ViewState(
     latitude=15.0,
     longitude=0.0,
@@ -120,7 +127,7 @@ view_state = pdk.ViewState(
     pitch=0,
 )
 
-# Renderizar mapa combinando teatros fijos y tráfico aéreo clasificado
+# Renderizar mapa combinando teatros fijos y los iconos de aviones
 st.pydeck_chart(pdk.Deck(
     layers=[capa_fijos, capa_aviones],
     initial_view_state=view_state,
