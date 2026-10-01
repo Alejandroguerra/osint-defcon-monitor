@@ -83,7 +83,7 @@ def scan_air_traffic():
     triggers = []
     logistics_count = 0
     aviones_detectados = []
-    aviones_mapa = []  # Lista para recolectar las coordenadas geográficas de los objetivos
+    aviones_mapa = []  # <--- Lista que recolectará las coordenadas para el mapa
     
     try:
         url = "https://opensky-network.org/api/states/all"
@@ -108,38 +108,30 @@ def scan_air_traffic():
                 
             aviones_detectados.append({"icao24": icao24, "callsign": callsign})
             
+            # 🌐 MUESTREO DE TRÁFICO ACTIVO PARA EL MAPA:
+            # Esto dibuja en el mapa cualquier avión comercial o de transporte con callsign activo
+            if callsign:
+                aviones_mapa.append({
+                    "lat": lat,
+                    "lon": lon,
+                    "name": f"Tráfico Activo: {callsign} ({icao24})",
+                    "tipo": "Monitoreo Aéreo"
+                })
+            
             # 1. Activos Estratégicos Superiores (Bombarderos / Mando)
             if icao24 in STRATEGIC_ASSETS or icao24 in DOOMSDAY_PLANES:
                 points += SCORE_WEIGHTS["MIL_STRATEGIC_BOMBER"]
                 triggers.append(f"[CRÍTICO - AIRE] Activo estratégico de alto valor detectado: {icao24} ({callsign})")
-                aviones_mapa.append({
-                    "lat": lat,
-                    "lon": lon,
-                    "name": f"Estratégico: {icao24} ({callsign})",
-                    "tipo": "Crítico - Aire"
-                })
                 
             # 2. Aviones de Alerta Temprana (AWACS) o Cisternas
             elif callsign.startswith(("REACH", "RSV", "COBRA", "DRAGON")):
                 points += SCORE_WEIGHTS["MIL_AWACS_TANKER"]
                 triggers.append(f"[ALERTA - SOPORTE TÁCTICO] Activo de reabastecimiento o control aéreo detectado: {callsign}")
-                aviones_mapa.append({
-                    "lat": lat,
-                    "lon": lon,
-                    "name": f"Soporte Táctico: {callsign}",
-                    "tipo": "Monitoreo"
-                })
                 
             # 3. Éxodo VIP
             elif icao24 in VIP_JETS:
                 points += SCORE_WEIGHTS["VIP_JET_UNUSUAL"]
                 triggers.append(f"[VIP - ÉXODO] Movimiento de avión privado de alto nivel: {icao24} ({callsign})")
-                aviones_mapa.append({
-                    "lat": lat,
-                    "lon": lon,
-                    "name": f"VIP: {icao24} ({callsign})",
-                    "tipo": "Crítico - VIP"
-                })
                 
             # 4. Logística Militar Común
             elif callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
@@ -149,6 +141,11 @@ def scan_air_traffic():
             points += SCORE_WEIGHTS["MIL_LOGISTICS_HEAVY"]
             triggers.append(f"[LOGÍSTICA PESADA] Concentración masiva anómala de transporte militar: {logistics_count} unidades simultáneas")
             
+        # Ejecutamos la evaluación detallada de flotas prioritarias
+        pts_flotas, trg_flotas = evaluar_flotas_prioritarias(aviones_detectados)
+        points += pts_flotas
+        triggers.extend(trg_flotas)
+        
     except Exception as e:
         triggers.append(f"[ERROR] Fallo en API aérea: {str(e)}")
         
