@@ -80,24 +80,42 @@ capa_fijos = pdk.Layer(
     auto_highlight=True,
 )
 
-# Inicializar la lista de capas del mapa obligatoriamente con los puntos fijos
 layers_map = [capa_fijos]
 
-# 2. Capa de puntos (ScatterplotLayer) para los aviones
+# 2. Capa de Iconos Gráficos (IconLayer) para los aviones con silueta real e imagen PNG
 if aviones_mapa:
-    df_aviones = pd.DataFrame(aviones_mapa)
+    # URL pública de un icono de avión limpio y transparente optimizado para mapas
+    icon_url = "https://cdn-icons-png.flaticon.com/512/723/723915.png"
+    
+    icon_data_list = []
+    for av in aviones_mapa:
+        # Preparamos cada registro agregando la estructura de diccionario de icono que exige Pydeck
+        item = av.copy()
+        item["icon_data"] = {
+            "url": icon_url,
+            "width": 128,
+            "height": 128,
+            "anchorY": 64,
+            "mask": True # Permite colorear dinámicamente el icono PNG según el color asignado en el monitor
+        }
+        icon_data_list.append(item)
+
+    df_aviones = pd.DataFrame(icon_data_list)
+    
     capa_aviones = pdk.Layer(
-        "ScatterplotLayer",
+        "IconLayer",
         df_aviones,
         get_position="[lon, lat]",
+        get_icon="icon_data",
+        get_size="size",
         get_color="color",
-        get_radius="size",
-        radius_scale=1500,
+        get_angle="heading",
+        size_scale=0.8,
         pickable=True,
         auto_highlight=True,
     )
     layers_map.append(capa_aviones)
-    
+
 # Vista inicial centrada globalmente
 view_state = pdk.ViewState(
     latitude=15.0,
