@@ -82,6 +82,7 @@ def scan_air_traffic():
         if not states:
             return 0, [], []
             
+        contador_rutina = 0
         for s in states:
             icao24 = s[0]
             callsign = s[1].strip() if s[1] else ""
@@ -128,17 +129,19 @@ def scan_air_traffic():
                 })
                 
             else:
-                # Tráfico comercial de fondo (Muestreo opcional para evitar sobrecarga si hay miles)
-                aviones_mapa.append({
-                    "lat": lat,
-                    "lon": lon,
-                    "heading": heading,
-                    "name": f"Tráfico: {callsign} ({icao24})",
-                    "tipo": "Rutina",
-                    "color": [100, 180, 255, 200],  # Azul tenue
-                    "size": 14,
-                    "text": "✈"
-                })
+                # MUESTREO DE RUTINA: Tomamos solo 1 de cada 80 para evitar sobrecarga gráfica
+                contador_rutina += 1
+                if contador_rutina % 80 == 0:
+                    aviones_mapa.append({
+                        "lat": lat,
+                        "lon": lon,
+                        "heading": heading,
+                        "name": f"Tráfico: {callsign} ({icao24})",
+                        "tipo": "Rutina",
+                        "color": [100, 180, 255, 200],  # Azul tenue
+                        "size": 14,
+                        "text": "✈"
+                    })
 
             if callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
                 logistics_count += 1
@@ -251,7 +254,7 @@ def dispatch_alert(defcon, score, triggers):
         print(f"Error crítico enviando correo: {e}")
 
 # ==========================================
-# GUARDADO PARA EL TABLERO WEB (CORREGIDO)
+# GUARDADO PARA EL TABLERO WEB
 # ==========================================
 def guardar_datos_tablero(defcon, score, triggers, aviones_mapa=None):
     """Guarda los resultados en un archivo JSON usando la clave 'aviones' para Streamlit."""
@@ -263,7 +266,7 @@ def guardar_datos_tablero(defcon, score, triggers, aviones_mapa=None):
         "defcon": defcon,
         "score": score,
         "triggers": triggers,
-        "aviones": aviones_mapa  # <--- Corregido de 'aviones_mapa' a 'aviones' para que app.py lo lea bien
+        "aviones": aviones_mapa  # <--- Clave correcta requerida por app.py
     }
     with open("datos.json", "w", encoding="utf-8") as f:
         json.dump(datos, f, ensure_ascii=False, indent=4)
@@ -324,7 +327,7 @@ if __name__ == "__main__":
     current_defcon = get_defcon_level(total_score)
     dispatch_alert(current_defcon, total_score, all_triggers)
     
-    # 4. Guardar datos para el tablero de Streamlit (Pasando los aviones reales detectados)
+    # 4. Guardar datos para el tablero de Streamlit
     guardar_datos_tablero(current_defcon, total_score, all_triggers, aviones_mapa=aviones_mapa)
 
     # 5. Guardar memoria histórica en CSV
