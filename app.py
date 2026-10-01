@@ -1,130 +1,76 @@
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
-import requests
 import json
-import time
 
 # ==========================================
-# CONFIGURACIÓN Y LISTAS DE INTELIGENCIA
+# CONFIGURACIÓN DE LA INTERFAZ
 # ==========================================
-st.set_page_config(page_title="EWS Global", layout="wide")
+st.set_page_config(page_title="EWS Global - Tablero Táctico", layout="wide")
 
-STRATEGIC_ASSETS = ["ae01d6", "ae01c9", "ae05ff", "ae0671", "ae01bf", "ae047c"]
-VIP_JETS = ["484153", "484154", "406263", "ae46a0"]
-
-# ==========================================
-# FUNCIÓN DE ESCANEO CON DATOS DE RESPALDO (FALLBACK)
-# ==========================================
-def run_scan_live_streamlit():
-    """Ejecuta el escaneo de OpenSky y utiliza respaldo si la red externa bloquea la petición."""
-    with st.spinner("🚨 Conectando con OpenSky Network para obtener telemetría en vivo..."):
-        aviones_mapa = []
-        
-        try:
-            url = "https://opensky-network.org/api/states/all"
-            # Solicitud con un timeout menor y headers para evitar bloqueos por bot
-            headers = {'User-Agent': 'Mozilla/5.0'}
-            response = requests.get(url, headers=headers, timeout=10)
-            
-            if response.status_code == 200:
-                states = response.json().get("states", [])
-                if states:
-                    count = 0
-                    for s in states:
-                        count += 1
-                        icao24 = s[0]
-                        callsign = s[1].strip() if s[1] else "N/A"
-                        lon = s[5]
-                        lat = s[6]
-                        on_ground = s[8]
-                        heading = s[10] if s[10] is not None else 0.0
-                        
-                        if on_ground or lat is None or lon is None:
-                            continue
-                        
-                        # Clasificación de tráfico de muestra (para no saturar el mapa)
-                        if icao24 in STRATEGIC_ASSETS:
-                            tipo, color, size = "Crítico", [255, 0, 0, 255], 26
-                        elif icao24 in VIP_JETS or callsign.startswith(("REACH", "RSV", "COBRA", "DRAGON")):
-                            tipo, color, size = "Inusual", [255, 140, 0, 255], 22
-                        else:
-                            if count % 100 == 0:  # Muestreo ligero del tráfico global
-                                tipo, color, size = "Rutina", [100, 180, 255, 180], 16
-                            else:
-                                continue
-                        
-                        aviones_mapa.append({
-                            "lat": lat, "lon": lon, "heading": -heading,
-                            "name": f"Tráfico: {callsign} ({icao24})",
-                            "tipo": tipo, "color": color, "size": size, "text": "✈"
-                        })
-            
-            # Si se obtuvieron aviones reales, los guardamos
-            if aviones_mapa:
-                datos_finales = {"timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC"), "aviones": aviones_mapa}
-                with open('datos.json', 'w') as f:
-                    json.dump(datos_finales, f)
-                st.success(f"✅ Sincronización exitosa: {len(aviones_mapa)} vectores activos mapeados.")
-                return True
-
-        except Exception:
-            pass # Si falla la red, pasamos silenciosamente al respaldo para no romper la app
-
-        # --- RESPALDO DE EMERGENCIA (FALLBACK) ---
-        # Si OpenSky da timeout o bloquea, inyectamos puntos de tráfico simulados estratégicos 
-        # para que el mapa operativo nunca falle ni quede vacío ante una emergencia de red.
-        st.warning("⚠️ OpenSky Network no respondió (límite de peticiones de la nube). Activando telemetría de respaldo simulada.")
-        
-        aviones_respaldo = [
-            {"lat": 54.5, "lon": 36.2, "heading": 45, "name": "Tráfico de Respaldo: RRF99 (Zona Europa)", "tipo": "Crítico", "color": [255, 0, 0, 255], "size": 26, "text": "✈"},
-            {"lat": 38.0, "lon": -75.0, "heading": 180, "name": "Tráfico de Respaldo: REACH41 (Costa Este USA)", "tipo": "Inusual", "color": [255, 140, 0, 255], "size": 22, "text": "✈"},
-            {"lat": -33.0, "lon": -71.5, "heading": 90, "name": "Tráfico de Respaldo: LAN501 (Zona Central Chile)", "tipo": "Rutina", "color": [100, 180, 255, 180], "size": 16, "text": "✈"},
-            {"lat": 35.0, "lon": 115.0, "heading": 270, "name": "Tráfico de Respaldo: CCA981 (Indo-Pacífico)", "tipo": "Rutina", "color": [100, 180, 255, 180], "size": 16, "text": "✈"}
-        ]
-        
-        datos_finales = {"timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC (Respaldo)"), "aviones": aviones_respaldo}
-        with open('datos.json', 'w') as f:
-            json.dump(datos_finales, f)
-            
-        st.success("✅ Tablero operativo restablecido mediante capa de contingencia.")
-        return True
-
-# ==========================================
-# INTERFAZ DE STREAMLIT
-# ==========================================
 st.title("📡 Early Warning System (EWS) - Tablero Táctico Global")
 st.markdown("---")
 
-st.sidebar.header("🎛️ Controles de Operación")
-if st.sidebar.button("🔄 ACTUALIZAR ESTADO DEL RADAR"):
-    run_scan_live_streamlit()
-    st.rerun()
-
-# Cargar JSON actual
+# ==========================================
+# CARGA DE DATOS AUTOMÁTICA (DESDE EL JSON)
+# ==========================================
 try:
     with open('datos.json', 'r') as f:
         loaded_data = json.load(f)
+    
     timestamp_datos = loaded_data.get('timestamp', 'Desconocido')
     aviones_mapa = loaded_data.get('aviones', [])
-    st.sidebar.write(f"🕒 Sincronización: **{timestamp_datos}**")
+    puntuacion_actual = loaded_data.get('puntuacion', 0)
+    defcon_nivel = loaded_data.get('defcon', 5)
+    triggers_activos = loaded_data.get('triggers', [])
+    
 except FileNotFoundError:
-    # Si no existe el archivo al iniciar, generamos el respaldo automáticamente
+    timestamp_datos = "Sin datos"
     aviones_mapa = []
-    run_scan_live_streamlit()
-    st.rerun()
+    puntuacion_actual = 0
+    defcon_nivel = 5
+    triggers_activos = ["Esperando el primer ciclo de escaneo del sistema..."]
 
 # ==========================================
-# MAPA TÁCTICO INTERACTIVO
+# PANEL SUPERIOR DE MONITOREO (DEFCON & MÉTRICAS)
+# ==========================================
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    # Color dinámico según el nivel de DEFCON
+    color_defcon = "🟢 DEFCON 5" if defcon_nivel >= 5 else ("🟡 DEFCON 3-4" if defcon_nivel >= 3 else "🔴 DEFCON 1-2")
+    st.metric(label="Estado de Alerta (DEFCON)", value=color_defcon)
+
+with col2:
+    st.metric(label="Puntuación de Amenaza", value=f"{puntuacion_actual} pts")
+
+with col3:
+    st.metric(label="Vectores Aéreos Activos", value=len(aviones_mapa))
+
+with col4:
+    st.metric(label="Sincronización", value=timestamp_datos)
+
+st.markdown("---")
+
+# Mostrar registro de alertas recientes si existen
+if triggers_activos:
+    with st.expander("🚨 Ver Registros y Triggers de Inteligencia Activos", expanded=False):
+        for trg in triggers_activos:
+            st.markdown(f"- {trg}")
+
+# ==========================================
+# MAPA TÁCTICO GLOBAL
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
+# 1. Puntos fijos de interés (Rusia, EE. UU., China y Chile)
 teatros_fijos = [
     {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Zona Crítica", "radius": 400000, "color": [255, 0, 0, 180]},
     {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Zona de Interés", "radius": 400000, "color": [0, 120, 255, 180]},
     {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Zona de Interés", "radius": 400000, "color": [255, 128, 0, 180]},
     {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Zona Nacional", "radius": 300000, "color": [0, 255, 128, 180]}
 ]
+
 df_fijos = pd.DataFrame(teatros_fijos)
 capa_fijos = pdk.Layer(
     "ScatterplotLayer",
@@ -135,6 +81,9 @@ capa_fijos = pdk.Layer(
     pickable=True,
     auto_highlight=True,
 )
+
+# 2. Capa de aviones con símbolos vectoriales ✈ orientados y coloreados
+layers_map = [capa_fijos]
 
 if aviones_mapa:
     df_aviones = pd.DataFrame(aviones_mapa)
@@ -150,21 +99,19 @@ if aviones_mapa:
         auto_highlight=True,
         size_scale=1
     )
-    layers_map = [capa_fijos, capa_aviones]
-else:
-    layers_map = [capa_fijos]
+    layers_map.append(capa_aviones)
 
+# Vista inicial centrada globalmente
 view_state = pdk.ViewState(
     latitude=15.0,
-    longitude=-70.0,
-    zoom=1.6,
+    longitude=0.0,
+    zoom=1.5,
     pitch=0,
 )
 
-# Renderizar mapa final con estilo libre y seguro
+# Renderizar mapa limpio sin depender de tokens externos de Mapbox
 st.pydeck_chart(pdk.Deck(
     layers=layers_map,
     initial_view_state=view_state,
-    tooltip={"text": "Objetivo: {name}\nClasificación: {tipo}"},
-    map_style="road" # Utiliza un mapa base estándar integrado que no requiere token de Mapbox
+    tooltip={"text": "Objetivo: {name}\nClasificación: {tipo}"}
 ))
