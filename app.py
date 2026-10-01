@@ -161,9 +161,10 @@ view_state = pdk.ViewState(
     pitch=0,
 )
 
+# Renderizar mapa final con estilo libre y seguro
 st.pydeck_chart(pdk.Deck(
     layers=layers_map,
     initial_view_state=view_state,
     tooltip={"text": "Objetivo: {name}\nClasificación: {tipo}"},
-    map_style='mapbox://styles/mapbox/dark-v10'
+    map_style="road" # Utiliza un mapa base estándar integrado que no requiere token de Mapbox
 ))
