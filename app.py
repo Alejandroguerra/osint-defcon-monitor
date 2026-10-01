@@ -20,7 +20,7 @@ try:
     
     timestamp_datos = loaded_data.get('timestamp', 'Desconocido')
     aviones_mapa = loaded_data.get('aviones', [])
-    puntuacion_actual = loaded_data.get('puntuacion', 0)
+    puntuacion_actual = loaded_data.get('score', 0)
     defcon_nivel = loaded_data.get('defcon', 5)
     triggers_activos = loaded_data.get('triggers', [])
     
@@ -37,7 +37,6 @@ except FileNotFoundError:
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    # Color dinámico según el nivel de DEFCON
     color_defcon = "🟢 DEFCON 5" if defcon_nivel >= 5 else ("🟡 DEFCON 3-4" if defcon_nivel >= 3 else "🔴 DEFCON 1-2")
     st.metric(label="Estado de Alerta (DEFCON)", value=color_defcon)
 
@@ -52,7 +51,6 @@ with col4:
 
 st.markdown("---")
 
-# Mostrar registro de alertas recientes si existen
 if triggers_activos:
     with st.expander("🚨 Ver Registros y Triggers de Inteligencia Activos", expanded=False):
         for trg in triggers_activos:
@@ -82,7 +80,10 @@ capa_fijos = pdk.Layer(
     auto_highlight=True,
 )
 
-# 2. Capa de puntos (ScatterplotLayer) para los aviones (Garantiza visibilidad total)
+# Inicializar la lista de capas del mapa obligatoriamente con los puntos fijos
+layers_map = [capa_fijos]
+
+# 2. Capa de puntos (ScatterplotLayer) para los aviones
 if aviones_mapa:
     df_aviones = pd.DataFrame(aviones_mapa)
     capa_aviones = pdk.Layer(
@@ -90,8 +91,8 @@ if aviones_mapa:
         df_aviones,
         get_position="[lon, lat]",
         get_color="color",
-        get_radius="size", # Usa el tamaño definido en el monitor
-        radius_scale=1500, # Escala visual para que se noten bien en el mapa global
+        get_radius="size",
+        radius_scale=1500,
         pickable=True,
         auto_highlight=True,
     )
@@ -105,7 +106,7 @@ view_state = pdk.ViewState(
     pitch=0,
 )
 
-# Renderizar mapa limpio sin depender de tokens externos de Mapbox
+# Renderizar mapa limpio
 st.pydeck_chart(pdk.Deck(
     layers=layers_map,
     initial_view_state=view_state,
