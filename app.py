@@ -55,11 +55,12 @@ st.markdown("---")
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
-# Coordenadas base de los teatros de operaciones monitoreados
+# Coordenadas base de los teatros de operaciones y zonas de interés actualizadas
 teatros_base = [
-    {"lat": 55.75, "lon": 37.61, "name": "Teatro Este (Rusia / Ucrania)", "tipo": "Crítico"},
-    {"lat": 33.31, "lon": 44.36, "name": "Teatro Medio Oriente (Irán / Golfo)", "tipo": "Monitoreo"},
-    {"lat": 39.90, "lon": 116.40, "name": "Teatro Indo-Pacífico (China)", "tipo": "Observación"}
+    {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Crítico"},
+    {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Monitoreo"},
+    {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Observación"},
+    {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Nacional"}
 ]
 
 # Fusionar teatros base con aviones activos detectados en tiempo real
@@ -72,20 +73,19 @@ capa_mapa = pdk.Layer(
     data_mapa,
     get_position="[lon, lat]",
     get_color="[200, 30, 0, 180]",
-    get_radius=150000, # Radio de cobertura visual en metros
+    get_radius=250000, # Radio de cobertura visual en metros
     pickable=True,
     auto_highlight=True,
 )
 
 # Vista inicial centrada a nivel global
 view_state = pdk.ViewState(
-    latitude=30.0,
-    longitude=20.0,
-    zoom=1.4,
+    latitude=15.0,
+    longitude=0.0,
+    zoom=1.2,
     pitch=0,
 )
 
-# Renderizar el mapa en Streamlit
 st.pydeck_chart(pdk.Deck(
     layers=[capa_mapa],
     initial_view_state=view_state,
