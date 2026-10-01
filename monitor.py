@@ -78,7 +78,7 @@ OFFICIAL_FEEDS = {
 # FUNCIONES DE RECOLECCIÓN ACTUALIZADAS
 # ==========================================
 def scan_air_traffic():
-    """Analiza el tráfico aéreo, clasifica aeronaves y extrae coordenadas, tipos y colores para el mapa táctico."""
+    """Analiza el tráfico aéreo, clasifica aeronaves, extrae coordenadas, rumbo, tipos y colores para el mapa táctico."""
     points = 0
     triggers = []
     logistics_count = 0
@@ -101,6 +101,7 @@ def scan_air_traffic():
             lon = s[5]  # Longitud geográfica
             lat = s[6]  # Latitud geográfica
             on_ground = s[8]
+            heading = s[10] if s[10] is not None else 0.0  # Rumbo para la rotación del icono
             
             # Omitir aeronaves en tierra o sin coordenadas válidas
             if on_ground or lat is None or lon is None:
@@ -117,6 +118,7 @@ def scan_air_traffic():
                 aviones_mapa.append({
                     "lat": lat,
                     "lon": lon,
+                    "heading": heading,
                     "name": f"Estratégico: {icao24} ({callsign})",
                     "tipo": "Crítico",
                     "color": [255, 0, 0, 255]      # Rojo intenso
@@ -128,6 +130,7 @@ def scan_air_traffic():
                 aviones_mapa.append({
                     "lat": lat,
                     "lon": lon,
+                    "heading": heading,
                     "name": f"VIP/Táctico: {icao24} ({callsign})",
                     "tipo": "Inusual",
                     "color": [255, 140, 0, 255]    # Naranja brillante
@@ -138,9 +141,10 @@ def scan_air_traffic():
                 aviones_mapa.append({
                     "lat": lat,
                     "lon": lon,
+                    "heading": heading,
                     "name": f"Tráfico: {callsign} ({icao24})",
                     "tipo": "Rutina",
-                    "color": [100, 180, 255, 120]  # Azul tenue
+                    "color": [100, 180, 255, 200]  # Azul tenue
                 })
 
             if callsign.startswith(("RCH", "RRR", "CMB", "CTM", "RFF")):
@@ -155,6 +159,7 @@ def scan_air_traffic():
         
     return points, triggers, aviones_mapa
     
+
 def evaluar_flotas_prioritarias(aviones_detectados):
     """Evalúa flotas prioritarias (VIPs y activos estratégicos) frente al umbral de normalidad."""
     puntos_aereos = 0
