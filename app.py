@@ -51,11 +51,11 @@ else:
 st.markdown("---")
 
 # ==========================================
-# MAPA TÁCTICO INTERACTIVO (Con Iconos de Aviones y Zonas Fijas)
+# MAPA TÁCTICO INTERACTIVO (Radar EWS con Símbolos Vectoriales)
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
-# 1. Puntos fijos obligatorios (Zonas de Interés y Teatros Estratégicos)
+# 1. Puntos fijos obligatorios (Rusia, EE. UU., China y Chile)
 teatros_fijos = [
     {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Zona Crítica", "radius": 400000, "color": [255, 0, 0, 180]},
     {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Zona de Interés", "radius": 400000, "color": [0, 120, 255, 180]},
@@ -64,7 +64,6 @@ teatros_fijos = [
 ]
 
 df_fijos = pd.DataFrame(teatros_fijos)
-
 capa_fijos = pdk.Layer(
     "ScatterplotLayer",
     df_fijos,
@@ -75,46 +74,42 @@ capa_fijos = pdk.Layer(
     auto_highlight=True,
 )
 
-# 2. Procesamiento de aviones con IconLayer para que tengan forma de avión
-# Usaremos un icono público de avión en formato PNG
-icon_url = "https://cdn-icons-png.flaticon.com/512/723/723915.png"
-
+# 2. Procesamiento de aviones con TextLayer (Símbolo de avión ✈ rotado y coloreado)
 aviones_procesados = []
 for av in aviones_mapa:
     tipo = av.get("tipo", "Rutina")
+    color = av.get("color", [100, 180, 255, 200])
     
-    # Tamaño del icono según criticidad
+    # Tamaño del símbolo según criticidad
     if tipo == "Crítico":
-        size = 35
+        size = 24
     elif tipo == "Inusual":
-        size = 30
+        size = 20
     else:
-        size = 18
+        size = 14
 
     aviones_procesados.append({
         "lat": av["lat"],
         "lon": av["lon"],
         "name": av["name"],
         "tipo": tipo,
+        "color": color,
         "size": size,
-        "icon_data": {
-            "url": icon_url,
-            "width": 128,
-            "height": 128,
-            "anchorY": 64
-        }
+        "angle": -av.get("heading", 0), # Ajuste de ángulo para orientación en el mapa
+        "text": "✈"
     })
 
 df_aviones = pd.DataFrame(aviones_procesados)
 
-# Capa de Iconos para los aviones
+# Capa de Texto vectorial para los aviones (Colores dinámicos y rotación real)
 capa_aviones = pdk.Layer(
-    "IconLayer",
+    "TextLayer",
     df_aviones,
     get_position="[lon, lat]",
-    get_icon="icon_data",
+    get_text="text",
     get_size="size",
-    size_scale=1,
+    get_color="color",
+    get_angle="angle",
     pickable=True,
     auto_highlight=True,
 )
@@ -127,7 +122,7 @@ view_state = pdk.ViewState(
     pitch=0,
 )
 
-# Renderizar mapa combinando teatros fijos y los iconos de aviones
+# Renderizar mapa
 st.pydeck_chart(pdk.Deck(
     layers=[capa_fijos, capa_aviones],
     initial_view_state=view_state,
