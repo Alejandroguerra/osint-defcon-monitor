@@ -200,3 +200,4 @@ st.pydeck_chart(pdk.Deck(
 # Sección de depuración (opcional, para ver el JSON crudo)
 if st.sidebar.checkbox("Mostrar datos JSON crudos"):
     st.write(aviones_mapa)
+    
