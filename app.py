@@ -82,25 +82,21 @@ capa_fijos = pdk.Layer(
     auto_highlight=True,
 )
 
-# 2. Capa de aviones con símbolos vectoriales ✈ orientados y coloreados
-layers_map = [capa_fijos]
-
+# 2. Capa de puntos (ScatterplotLayer) para los aviones (Garantiza visibilidad total)
 if aviones_mapa:
     df_aviones = pd.DataFrame(aviones_mapa)
     capa_aviones = pdk.Layer(
-        "TextLayer",
+        "ScatterplotLayer",
         df_aviones,
         get_position="[lon, lat]",
-        get_text="text",
-        get_size="size",
         get_color="color",
-        get_angle="heading",
+        get_radius="size", # Usa el tamaño definido en el monitor
+        radius_scale=1500, # Escala visual para que se noten bien en el mapa global
         pickable=True,
         auto_highlight=True,
-        size_scale=1
     )
     layers_map.append(capa_aviones)
-
+    
 # Vista inicial centrada globalmente
 view_state = pdk.ViewState(
     latitude=15.0,
