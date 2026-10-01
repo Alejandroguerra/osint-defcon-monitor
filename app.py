@@ -55,42 +55,20 @@ st.markdown("---")
 # ==========================================
 st.subheader("🗺️ Mapa Táctico Global de Amenazas y Tráfico Aéreo")
 
-# 1. Separar teatros base y limpiar/filtrar el exceso de aviones si son demasiados (opcional: mostrar un muestreo o limitar)
-teatros_base = [
-    {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Crítico", "color": [255, 0, 0]},
-    {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Monitoreo", "color": [0, 100, 255]},
-    {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Observación", "color": [255, 128, 0]},
-    {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Nacional", "color": [0, 255, 128]}
+# 1. Puntos fijos obligatorios (Zonas de Interés y Teatros Estratégicos)
+teatros_fijos = [
+    {"lat": 55.75, "lon": 37.61, "name": "Rusia (Moscu / Comando Central)", "tipo": "Zona Crítica", "radius": 400000, "color": [255, 0, 0, 180]},
+    {"lat": 38.89, "lon": -77.03, "name": "Estados Unidos (Washington D.C.)", "tipo": "Zona de Interés", "radius": 400000, "color": [0, 120, 255, 180]},
+    {"lat": 39.90, "lon": 116.40, "name": "China (Beijing / Indo-Pacífico)", "tipo": "Zona de Interés", "radius": 400000, "color": [255, 128, 0, 180]},
+    {"lat": -33.44, "lon": -70.66, "name": "Chile (Zona de Interés / Santiago)", "tipo": "Zona Nacional", "radius": 300000, "color": [0, 255, 128, 180]}
 ]
 
-# Adaptar puntos de aviones para que tengan color y tamaño sutiles
-aviones_formateados = []
-for av in aviones_mapa:
-    # Si es un avión crítico o VIP, lo destacamos; si es tráfico normal, lo hacemos tenue y pequeño
-    tipo_avion = av.get("tipo", "Monitoreo Aéreo")
-    if "Crítico" in tipo_avion or "VIP" in tipo_avion:
-        color = [255, 50, 50, 220]
-        radio = 80000
-    else:
-        color = [100, 150, 200, 80] # Azul muy tenue y semitransparente para no saturar
-        radio = 25000
-        
-    aviones_formateados.append({
-        "lat": av["lat"],
-        "lon": av["lon"],
-        "name": av["name"],
-        "tipo": tipo_avion,
-        "color": color,
-        "radius": radio
-    })
+df_fijos = pd.DataFrame(teatros_fijos)
 
-# Unificar todo para el DataFrame
-data_mapa = pd.DataFrame(teatros_base + aviones_formateados)
-
-# Capa visual interactiva con Pydeck optimizada
-capa_mapa = pdk.Layer(
+# Capa para los círculos de las potencias y Chile
+capa_fijos = pdk.Layer(
     "ScatterplotLayer",
-    data_mapa,
+    df_fijos,
     get_position="[lon, lat]",
     get_color="color",
     get_radius="radius",
@@ -98,16 +76,53 @@ capa_mapa = pdk.Layer(
     auto_highlight=True,
 )
 
-# Vista inicial centrada a nivel global
+# 2. Procesamiento de aviones utilizando los colores y tipos definidos en el JSON
+aviones_procesados = []
+for av in aviones_mapa:
+    tipo = av.get("tipo", "Rutina")
+    color = av.get("color", [100, 180, 255, 120]) # Valor por defecto si no viene
+    
+    # Asignar tamaño dinámico según el nivel de alerta
+    if tipo == "Crítico":
+        size = 40000
+    elif tipo == "Inusual":
+        size = 30000
+    else:
+        size = 12000
+
+    aviones_procesados.append({
+        "lat": av["lat"],
+        "lon": av["lon"],
+        "name": av["name"],
+        "tipo": tipo,
+        "color": color,
+        "radius": size
+    })
+
+df_aviones = pd.DataFrame(aviones_procesados)
+
+# Capa de dispersión dinámica para los aviones
+capa_aviones = pdk.Layer(
+    "ScatterplotLayer",
+    df_aviones,
+    get_position="[lon, lat]",
+    get_color="color",
+    get_radius="radius",
+    pickable=True,
+    auto_highlight=True,
+)
+
+# Vista inicial centrada globalmente incluyendo los teatros clave y Chile
 view_state = pdk.ViewState(
     latitude=15.0,
     longitude=0.0,
-    zoom=1.2,
+    zoom=1.4,
     pitch=0,
 )
 
+# Renderizar mapa combinando teatros fijos y tráfico aéreo clasificado
 st.pydeck_chart(pdk.Deck(
-    layers=[capa_mapa],
+    layers=[capa_fijos, capa_aviones],
     initial_view_state=view_state,
-    tooltip={"text": "Objetivo: {name}\nTipo: {tipo}"}
+    tooltip={"text": "Objetivo: {name}\nClasificación: {tipo}"}
 ))
