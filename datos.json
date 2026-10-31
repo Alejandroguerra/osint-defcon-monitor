@@ -1,14 +1,17 @@
 {
-    "timestamp": "2026-10-31 00:39:33",
+    "timestamp": "2026-10-31 06:19:52",
     "defcon": 5,
-    "score": 0,
-    "triggers": [],
+    "score": 5.0,
+    "triggers": [
+        "[Russia TASS (State)] [CRÍTICO - RSS] Convergencia Actor-Ataque detectada: Russian forces strike sea vessel delivering military cargo for Ukrainian army",
+        "ℹ️ [RETORICA SIN RESPALDO FÍSICO] Declaración detectada sin correlación de movimiento militar en el ciclo."
+    ],
     "aviones": [
         {
-            "lat": 28.0603,
-            "lon": -80.6215,
-            "heading": 213.15,
-            "name": "Tráfico: N7YJ (a9520b)",
+            "lat": 20.9746,
+            "lon": -86.9697,
+            "heading": 289.71,
+            "name": "Tráfico: VIV2180 (0d11e6)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -20,10 +23,10 @@
             "text": "✈"
         },
         {
-            "lat": 35.2375,
-            "lon": -113.6473,
-            "heading": 285.06,
-            "name": "Tráfico: ENY3934 (a3ed2c)",
+            "lat": 39.1222,
+            "lon": 1.1978,
+            "heading": 241.88,
+            "name": "Tráfico: AEA5201 (344459)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -35,10 +38,10 @@
             "text": "✈"
         },
         {
-            "lat": 41.3451,
-            "lon": -112.7782,
-            "heading": 152.88,
-            "name": "Tráfico: N8513B (abadd2)",
+            "lat": 14.1778,
+            "lon": 77.9019,
+            "heading": 8.71,
+            "name": "Tráfico: AKJ1375 (80179b)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -50,10 +53,10 @@
             "text": "✈"
         },
         {
-            "lat": 44.5185,
-            "lon": -88.0867,
-            "heading": 180.69,
-            "name": "Tráfico: N3978Q (a4a049)",
+            "lat": 19.0504,
+            "lon": 84.5726,
+            "heading": 234.06,
+            "name": "Tráfico: VTKOL (8015e0)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -65,10 +68,10 @@
             "text": "✈"
         },
         {
-            "lat": 15.3306,
-            "lon": 97.7291,
-            "heading": 116.51,
-            "name": "Tráfico: THA352 (88530c)",
+            "lat": 47.2573,
+            "lon": 16.2785,
+            "heading": 25.08,
+            "name": "Tráfico: AUA76R (44006e)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -80,10 +83,10 @@
             "text": "✈"
         },
         {
-            "lat": 45.2037,
-            "lon": -74.3256,
-            "heading": 77.86,
-            "name": "Tráfico: ACA800 (c058d5)",
+            "lat": 51.4137,
+            "lon": 20.8578,
+            "heading": 14.13,
+            "name": "Tráfico: WZZ39 (471d35)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -95,10 +98,10 @@
             "text": "✈"
         },
         {
-            "lat": 47.0546,
-            "lon": -119.1015,
-            "heading": 101.53,
-            "name": "Tráfico: ASA217 (a78ffa)",
+            "lat": 22.6069,
+            "lon": 86.8593,
+            "heading": 274.93,
+            "name": "Tráfico: IGO5288 (8018a8)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -110,10 +113,10 @@
             "text": "✈"
         },
         {
-            "lat": 37.4187,
-            "lon": -119.8922,
-            "heading": 350.59,
-            "name": "Tráfico: QXE2220 (a842e7)",
+            "lat": 14.8118,
+            "lon": 79.2128,
+            "heading": 297.03,
+            "name": "Tráfico: UAE315 (896213)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -125,10 +128,10 @@
             "text": "✈"
         },
         {
-            "lat": 31.6067,
-            "lon": 36.1313,
-            "heading": 9.18,
-            "name": "Tráfico: EAF2632 (452144)",
+            "lat": 40.6752,
+            "lon": 24.624,
+            "heading": 254.19,
+            "name": "Tráfico: THY7MZ (4bb285)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -140,10 +143,10 @@
             "text": "✈"
         },
         {
-            "lat": 43.2068,
-            "lon": 23.4787,
-            "heading": 165.26,
-            "name": "Tráfico: ENT4XB (4892c8)",
+            "lat": 25.3532,
+            "lon": 55.1963,
+            "heading": 294.5,
+            "name": "Tráfico: UAE135 (896319)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -155,10 +158,10 @@
             "text": "✈"
         },
         {
-            "lat": 33.4506,
-            "lon": -96.6035,
-            "heading": 265.24,
-            "name": "Tráfico: AIP1057 (a6e327)",
+            "lat": 41.1473,
+            "lon": 38.0979,
+            "heading": 276.1,
+            "name": "Tráfico: THY6593 (4bb152)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -170,10 +173,10 @@
             "text": "✈"
         },
         {
-            "lat": 45.7304,
-            "lon": -122.6491,
-            "heading": 253.23,
-            "name": "Tráfico: AMF1965 (a9a650)",
+            "lat": 44.1065,
+            "lon": -10.9391,
+            "heading": 121.91,
+            "name": "Tráfico: AAL36 (aa9801)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -185,10 +188,10 @@
             "text": "✈"
         },
         {
-            "lat": 41.6456,
-            "lon": 143.7451,
-            "heading": 160.57,
-            "name": "Tráfico: ADO62 (841e00)",
+            "lat": 34.7854,
+            "lon": 33.1831,
+            "heading": 70.35,
+            "name": "Tráfico: 5BCLZ (4c8075)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -200,10 +203,10 @@
             "text": "✈"
         },
         {
-            "lat": 48.7074,
-            "lon": 21.0933,
-            "heading": 160.24,
-            "name": "Tráfico: ENT4003 (489225)",
+            "lat": 52.8414,
+            "lon": -104.3921,
+            "heading": 40.22,
+            "name": "Tráfico: FIN2 (461f4f)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -215,10 +218,10 @@
             "text": "✈"
         },
         {
-            "lat": 38.7107,
-            "lon": -90.2908,
-            "heading": 122.85,
-            "name": "Tráfico: SWA4094 (ac2836)",
+            "lat": 43.0873,
+            "lon": -82.9883,
+            "heading": 91.4,
+            "name": "Tráfico: SWA2737 (ab5f43)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -230,10 +233,10 @@
             "text": "✈"
         },
         {
-            "lat": 40.7505,
-            "lon": -73.4234,
-            "heading": 66.08,
-            "name": "Tráfico: PDT5798 (a87f41)",
+            "lat": 22.8386,
+            "lon": 70.3515,
+            "heading": 273.7,
+            "name": "Tráfico: ABY519 (89674b)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -245,10 +248,10 @@
             "text": "✈"
         },
         {
-            "lat": 31.6879,
-            "lon": -90.8856,
-            "heading": 248.67,
-            "name": "Tráfico: AAL841 (a76df8)",
+            "lat": 22.5103,
+            "lon": 115.9333,
+            "heading": 45.27,
+            "name": "Tráfico: AMU116 (780d4a)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -260,10 +263,10 @@
             "text": "✈"
         },
         {
-            "lat": 45.8602,
-            "lon": -112.3889,
-            "heading": 269.3,
-            "name": "Tráfico: ASA1787 (aaf831)",
+            "lat": 45.8445,
+            "lon": -121.1515,
+            "heading": 82.28,
+            "name": "Tráfico: DAL691 (abde0b)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -275,10 +278,10 @@
             "text": "✈"
         },
         {
-            "lat": 41.5777,
-            "lon": 118.5825,
-            "heading": 232.24,
-            "name": "Tráfico: CES2284 (781ea6)",
+            "lat": 33.5727,
+            "lon": -101.9012,
+            "heading": 231.63,
+            "name": "Tráfico: CSI504 (a648e1)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -290,10 +293,10 @@
             "text": "✈"
         },
         {
-            "lat": 34.8252,
-            "lon": -101.1613,
-            "heading": 132.81,
-            "name": "Tráfico: N45MW (a570eb)",
+            "lat": 38.8896,
+            "lon": 119.1471,
+            "heading": 102.13,
+            "name": "Tráfico: KAL9518 (71c075)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -305,10 +308,10 @@
             "text": "✈"
         },
         {
-            "lat": 33.513,
-            "lon": -95.9559,
-            "heading": 244.74,
-            "name": "Tráfico: ENY3505 (a9ec7f)",
+            "lat": 24.8792,
+            "lon": 120.9703,
+            "heading": 49.18,
+            "name": "Tráfico: CAL5992 (899106)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -320,10 +323,10 @@
             "text": "✈"
         },
         {
-            "lat": 35.2177,
-            "lon": 136.9485,
-            "heading": 332.39,
-            "name": "Tráfico: FDA412 (8462c4)",
+            "lat": 46.8542,
+            "lon": -113.5149,
+            "heading": 103.34,
+            "name": "Tráfico: N902DB (ac76e7)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -335,10 +338,10 @@
             "text": "✈"
         },
         {
-            "lat": -36.8021,
-            "lon": 173.4646,
-            "heading": 279.97,
-            "name": "Tráfico: QFA144 (7c77ff)",
+            "lat": -13.9545,
+            "lon": -54.1541,
+            "heading": 151.37,
+            "name": "Tráfico: TAM8083 (e4999f)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -350,10 +353,10 @@
             "text": "✈"
         },
         {
-            "lat": 34.4392,
-            "lon": -117.6441,
-            "heading": 118.97,
-            "name": "Tráfico: CAL024 (89901d)",
+            "lat": 41.055,
+            "lon": 40.1962,
+            "heading": 259,
+            "name": "Tráfico: THY6182 (4ba893)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -365,10 +368,10 @@
             "text": "✈"
         },
         {
-            "lat": 38.1064,
-            "lon": -107.1002,
-            "heading": 78.95,
-            "name": "Tráfico: AAL1049 (a7302f)",
+            "lat": 26.502,
+            "lon": 118.0378,
+            "heading": 311.28,
+            "name": "Tráfico:  (780668)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -380,10 +383,10 @@
             "text": "✈"
         },
         {
-            "lat": 38.9992,
-            "lon": 116.5018,
-            "heading": 15.54,
-            "name": "Tráfico: DKH1025 (781586)",
+            "lat": 45.6603,
+            "lon": 5.1641,
+            "heading": 185.84,
+            "name": "Tráfico: EJU95JQ (44061d)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -395,10 +398,10 @@
             "text": "✈"
         },
         {
-            "lat": 41.0654,
-            "lon": 24.6267,
-            "heading": 86.8,
-            "name": "Tráfico: AAR562 (71c078)",
+            "lat": 41.3411,
+            "lon": -89.892,
+            "heading": 241.97,
+            "name": "Tráfico: XSR724 (a9b279)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -410,10 +413,10 @@
             "text": "✈"
         },
         {
-            "lat": 39.5907,
-            "lon": 2.8366,
-            "heading": 238.76,
-            "name": "Tráfico: SAH26P (48c812)",
+            "lat": 34.2449,
+            "lon": 136.3244,
+            "heading": 52.4,
+            "name": "Tráfico: CPA530 (78921c)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -425,10 +428,10 @@
             "text": "✈"
         },
         {
-            "lat": 18.3677,
-            "lon": -65.5722,
-            "heading": 304.49,
-            "name": "Tráfico: FRV864 (abdde6)",
+            "lat": -34.9795,
+            "lon": 140.6381,
+            "heading": 90.47,
+            "name": "Tráfico: QTR4N (06a1c0)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -440,10 +443,10 @@
             "text": "✈"
         },
         {
-            "lat": 32.4788,
-            "lon": -96.9288,
-            "heading": 223.98,
-            "name": "Tráfico: N126HL (a06ab6)",
+            "lat": 43.4867,
+            "lon": 20.7905,
+            "heading": 312.95,
+            "name": "Tráfico: AEE530 (46b8b2)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -455,10 +458,10 @@
             "text": "✈"
         },
         {
-            "lat": 21.1148,
-            "lon": 114.7417,
-            "heading": 268.29,
-            "name": "Tráfico:  (8990e9)",
+            "lat": 28.8658,
+            "lon": 78.4345,
+            "heading": 142.35,
+            "name": "Tráfico: N8899J (ac42e0)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -470,10 +473,10 @@
             "text": "✈"
         },
         {
-            "lat": 34.0953,
-            "lon": -114.4458,
-            "heading": 300.99,
-            "name": "Tráfico: EJA711 (a98133)",
+            "lat": 38.4112,
+            "lon": 119.5901,
+            "heading": 266.09,
+            "name": "Tráfico: CCD8905 (7808c9)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -485,10 +488,10 @@
             "text": "✈"
         },
         {
-            "lat": 34.4716,
-            "lon": -82.606,
-            "heading": 3.27,
-            "name": "Tráfico: AAY496 (ab44ae)",
+            "lat": 35.9492,
+            "lon": -120.1496,
+            "heading": 130.01,
+            "name": "Tráfico: N40JD (a4ab14)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -500,10 +503,10 @@
             "text": "✈"
         },
         {
-            "lat": 27.368,
-            "lon": -80.7939,
-            "heading": 330.67,
-            "name": "Tráfico: N1212U (a05a1a)",
+            "lat": 52.1234,
+            "lon": 4.7646,
+            "heading": 166.94,
+            "name": "Tráfico: EJU37YQ (440cbe)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -515,10 +518,10 @@
             "text": "✈"
         },
         {
-            "lat": 38.4669,
-            "lon": 118.4257,
-            "heading": 291.74,
-            "name": "Tráfico: CDG4997 (78063b)",
+            "lat": 38.7402,
+            "lon": 17.2007,
+            "heading": 252.81,
+            "name": "Tráfico: DAH3019 (0a0045)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -530,10 +533,10 @@
             "text": "✈"
         },
         {
-            "lat": -20.4346,
-            "lon": 148.0367,
-            "heading": 150.48,
-            "name": "Tráfico: CSN617 (781915)",
+            "lat": 41.2711,
+            "lon": -8.687,
+            "heading": 349.3,
+            "name": "Tráfico: DLH33C (3c648c)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -545,10 +548,10 @@
             "text": "✈"
         },
         {
-            "lat": 32.1554,
-            "lon": -109.1068,
-            "heading": 277.11,
-            "name": "Tráfico: UPS5852 (aca757)",
+            "lat": 45.85,
+            "lon": 6.3535,
+            "heading": 158.83,
+            "name": "Tráfico: EZS27HU (4b0280)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -560,10 +563,10 @@
             "text": "✈"
         },
         {
-            "lat": 40.9844,
-            "lon": -98.8563,
-            "heading": 262.36,
-            "name": "Tráfico: UAL2458 (a24591)",
+            "lat": 49.1866,
+            "lon": 12.5441,
+            "heading": 118.42,
+            "name": "Tráfico: NGN472 (3c5099)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -575,10 +578,10 @@
             "text": "✈"
         },
         {
-            "lat": 39.8516,
-            "lon": 139.5347,
-            "heading": 206.43,
-            "name": "Tráfico: JAL2000 (86222e)",
+            "lat": 37.6665,
+            "lon": -120.5911,
+            "heading": 321.41,
+            "name": "Tráfico: SKW4083 (a7d665)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -590,10 +593,10 @@
             "text": "✈"
         },
         {
-            "lat": 38.9991,
-            "lon": -102.9732,
-            "heading": 285.38,
-            "name": "Tráfico: UAL2123 (a8fc72)",
+            "lat": 22.9036,
+            "lon": 69.2888,
+            "heading": 273.86,
+            "name": "Tráfico: OMA818 (70c125)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -605,10 +608,10 @@
             "text": "✈"
         },
         {
-            "lat": 36.4857,
-            "lon": -94.337,
-            "heading": 267.27,
-            "name": "Tráfico: UAL1938 (a2b89f)",
+            "lat": 30.8233,
+            "lon": 69.9235,
+            "heading": 78.45,
+            "name": "Tráfico: PIA323 (7609b9)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -620,10 +623,10 @@
             "text": "✈"
         },
         {
-            "lat": 43.3387,
-            "lon": -121.425,
-            "heading": 37.17,
-            "name": "Tráfico: SKW343L (a7dbaa)",
+            "lat": 53.2742,
+            "lon": -2.6269,
+            "heading": 245.89,
+            "name": "Tráfico: RYR183U (4ca911)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -635,10 +638,10 @@
             "text": "✈"
         },
         {
-            "lat": 23.0916,
-            "lon": 113.3482,
-            "heading": 198.68,
-            "name": "Tráfico: CXA8305 (7807a4)",
+            "lat": 41.18,
+            "lon": 3.2619,
+            "heading": 212.27,
+            "name": "Tráfico: TUI6JE (3c0c99)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -650,10 +653,10 @@
             "text": "✈"
         },
         {
-            "lat": 40.9017,
-            "lon": -74.0282,
-            "heading": 340.39,
-            "name": "Tráfico: LN240B (a23018)",
+            "lat": 34.3906,
+            "lon": 134.7883,
+            "heading": 233.77,
+            "name": "Tráfico: JJP55 (846dc8)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -665,10 +668,10 @@
             "text": "✈"
         },
         {
-            "lat": 42.9986,
-            "lon": -78.3259,
-            "heading": 66.08,
-            "name": "Tráfico: UAL1568 (a2b8c5)",
+            "lat": 46.9198,
+            "lon": 23.4552,
+            "heading": 318.55,
+            "name": "Tráfico: SXS4BH (4bce46)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -680,10 +683,10 @@
             "text": "✈"
         },
         {
-            "lat": 27.5713,
-            "lon": -82.5901,
-            "heading": 155.97,
-            "name": "Tráfico: AAL2443 (a9b088)",
+            "lat": 22.7898,
+            "lon": 113.7045,
+            "heading": 152,
+            "name": "Tráfico: CSZ9302 (781431)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -695,10 +698,10 @@
             "text": "✈"
         },
         {
-            "lat": 50.7775,
-            "lon": -99.5177,
-            "heading": 64.88,
-            "name": "Tráfico: UAL901 (ab0f89)",
+            "lat": 51.1332,
+            "lon": 15.5734,
+            "heading": 280.99,
+            "name": "Tráfico: DLH7KT (3006b5)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -710,10 +713,10 @@
             "text": "✈"
         },
         {
-            "lat": 5.3804,
-            "lon": -73.83,
-            "heading": 168.41,
-            "name": "Tráfico: HI1001 (0c414a)",
+            "lat": 53.2121,
+            "lon": -1.4738,
+            "heading": 97.91,
+            "name": "Tráfico: RYR23RC (4cafc0)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -725,10 +728,10 @@
             "text": "✈"
         },
         {
-            "lat": 31.0341,
-            "lon": -81.3942,
-            "heading": 27.99,
-            "name": "Tráfico: JBU1694 (a71ded)",
+            "lat": 14.5263,
+            "lon": 119.9146,
+            "heading": 229.91,
+            "name": "Tráfico: FDX6091 (a06310)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -740,10 +743,10 @@
             "text": "✈"
         },
         {
-            "lat": 40.3847,
-            "lon": 21.7316,
-            "heading": 330,
-            "name": "Tráfico: EXS65N (40823f)",
+            "lat": 13.4951,
+            "lon": 118.473,
+            "heading": 247.5,
+            "name": "Tráfico: MAS807 (750592)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -755,10 +758,10 @@
             "text": "✈"
         },
         {
-            "lat": 36.3817,
-            "lon": -111.9145,
-            "heading": 346.66,
-            "name": "Tráfico: SKW151Y (a2c224)",
+            "lat": 46.103,
+            "lon": 8.7109,
+            "heading": 148.38,
+            "name": "Tráfico: RYR18BX (4caf29)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -770,10 +773,10 @@
             "text": "✈"
         },
         {
-            "lat": 40.409,
-            "lon": -83.5472,
-            "heading": 109.02,
-            "name": "Tráfico: JIA5090 (a6ebc6)",
+            "lat": 42.4289,
+            "lon": 11.3613,
+            "heading": 98.57,
+            "name": "Tráfico: ITY615 (4cadc6)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -785,10 +788,10 @@
             "text": "✈"
         },
         {
-            "lat": 13.4465,
-            "lon": 120.5086,
-            "heading": 205.2,
-            "name": "Tráfico: CEB637 (758533)",
+            "lat": 45.0939,
+            "lon": -4.1265,
+            "heading": 225.17,
+            "name": "Tráfico: RYR57QN (4cadef)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -800,10 +803,10 @@
             "text": "✈"
         },
         {
-            "lat": 42.8932,
-            "lon": -75.6366,
-            "heading": 95.6,
-            "name": "Tráfico: UAL2331 (a0b88b)",
+            "lat": 45.4373,
+            "lon": 8.9824,
+            "heading": 238.92,
+            "name": "Tráfico: RYR7QF (4d22bb)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -815,10 +818,10 @@
             "text": "✈"
         },
         {
-            "lat": 35.6984,
-            "lon": -121.2452,
-            "heading": 140.73,
-            "name": "Tráfico: SKW5597 (a067ec)",
+            "lat": 40.3296,
+            "lon": -3.5611,
+            "heading": 190.72,
+            "name": "Tráfico: AEA9156 (348412)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -830,10 +833,10 @@
             "text": "✈"
         },
         {
-            "lat": 23.9571,
-            "lon": 72.2646,
-            "heading": 93.82,
-            "name": "Tráfico: UBG346 (884f01)",
+            "lat": 49.9287,
+            "lon": 3.7861,
+            "heading": 211.97,
+            "name": "Tráfico: SAS583 (4cad95)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -845,10 +848,10 @@
             "text": "✈"
         },
         {
-            "lat": 31.6514,
-            "lon": -96.4573,
-            "heading": 259.65,
-            "name": "Tráfico: N1250L (a068a8)",
+            "lat": 44.709,
+            "lon": 19.0809,
+            "heading": 25.72,
+            "name": "Tráfico: RYR73BE (4d227e)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -860,10 +863,10 @@
             "text": "✈"
         },
         {
-            "lat": 31.0869,
-            "lon": -103.2971,
-            "heading": 115.9,
-            "name": "Tráfico: SWA3524 (ac61bc)",
+            "lat": 18.3588,
+            "lon": 98.9865,
+            "heading": 341.98,
+            "name": "Tráfico: TVJ110 (885b56)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -875,10 +878,10 @@
             "text": "✈"
         },
         {
-            "lat": 34.643,
-            "lon": -82.041,
-            "heading": 193.51,
-            "name": "Tráfico: MXY2300 (a21efb)",
+            "lat": 41.8156,
+            "lon": 12.4142,
+            "heading": 162.52,
+            "name": "Tráfico: WMT772 (4d213e)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -890,10 +893,10 @@
             "text": "✈"
         },
         {
-            "lat": -29.999,
-            "lon": 158.0821,
-            "heading": 118.83,
-            "name": "Tráfico: ANZ142 (c827ee)",
+            "lat": 25.225,
+            "lon": 83.9261,
+            "heading": 299.85,
+            "name": "Tráfico: BOX621 (3c5642)",
             "tipo": "Rutina",
             "color": [
                 100,
@@ -905,445 +908,10 @@
             "text": "✈"
         },
         {
-            "lat": 19.1504,
-            "lon": 117.9168,
-            "heading": 224.74,
-            "name": "Tráfico: VJC835 (88803f)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 38.8903,
-            "lon": -77.8906,
-            "heading": 261.76,
-            "name": "Tráfico: ENY3928 (a1fff2)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 35.95,
-            "lon": -115.8476,
-            "heading": 292.07,
-            "name": "Tráfico: SWA2614 (ac5041)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 41.7424,
-            "lon": -95.8686,
-            "heading": 34.97,
-            "name": "Tráfico: N449WM (a56e0c)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 23.8385,
-            "lon": -84.426,
-            "heading": 252.49,
-            "name": "Tráfico:  (ac608e)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 38.6795,
-            "lon": -122.8704,
-            "heading": 169.79,
-            "name": "Tráfico: ASA680 (ace96a)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 40.2568,
-            "lon": -76.0992,
-            "heading": 252.26,
-            "name": "Tráfico: LBQ791 (a57e89)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 40.6805,
-            "lon": -82.4008,
-            "heading": 196.84,
-            "name": "Tráfico: JZA757 (c00b7d)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 35.0908,
-            "lon": -116.4363,
-            "heading": 62.6,
-            "name": "Tráfico: SWA2117 (abeb7c)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 26.126,
-            "lon": 50.9954,
-            "heading": 311.02,
-            "name": "Tráfico: DHX280 (8940d1)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 33.6706,
-            "lon": -96.3021,
-            "heading": 201.32,
-            "name": "Tráfico: ASH6290 (ac03ee)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 27.6372,
-            "lon": 49.7911,
-            "heading": 321.85,
-            "name": "Tráfico: ETD43 (8966bd)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 33.4532,
-            "lon": -112.3988,
-            "heading": 103.49,
-            "name": "Tráfico: AAL1851 (a4dd65)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 33.5605,
-            "lon": -114.5796,
-            "heading": 103.46,
-            "name": "Tráfico: UAL574 (a44633)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 3.9227,
-            "lon": 102.5142,
-            "heading": 18.68,
-            "name": "Tráfico: AXM9052 (750546)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 40.8393,
-            "lon": -85.808,
-            "heading": 335.86,
-            "name": "Tráfico: AAL3033 (aae960)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": -27.1512,
-            "lon": 153.039,
-            "heading": 318.6,
-            "name": "Tráfico: RAQ (7c5620)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 57.6425,
-            "lon": 12.2613,
-            "heading": 26.37,
-            "name": "Tráfico: SAS1808 (4cadd9)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 37.3706,
-            "lon": -121.8263,
-            "heading": 163.83,
-            "name": "Tráfico: N34BL (a3bb19)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 41.7655,
-            "lon": -86.7723,
-            "heading": 89.09,
-            "name": "Tráfico: SWA4757 (ac28e5)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 28.4296,
-            "lon": -81.296,
-            "heading": 357.78,
-            "name": "Tráfico: SWA2670 (ac8009)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 27.2679,
-            "lon": -82.2819,
-            "heading": 317.65,
-            "name": "Tráfico: N510FB (a661ee)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 40.8025,
-            "lon": -94.9323,
-            "heading": 254.28,
-            "name": "Tráfico: AAL2965 (ad5d5f)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 45.7475,
-            "lon": -111.6002,
-            "heading": 303,
-            "name": "Tráfico: ASA218 (a9ab05)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 37.4659,
-            "lon": 30.5523,
-            "heading": 160.29,
-            "name": "Tráfico: SVA252 (71001d)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 5.1832,
-            "lon": 100.1736,
-            "heading": 42.4,
-            "name": "Tráfico: KAL373 (71be05)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 38.5528,
-            "lon": -108.3667,
-            "heading": 259.81,
-            "name": "Tráfico: JBU415 (a1d2dc)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 47.7167,
-            "lon": -97.7966,
-            "heading": 32.93,
-            "name": "Tráfico: NDU60 (a59acb)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 52.6941,
-            "lon": -109.9818,
-            "heading": 123.53,
-            "name": "Tráfico: GTI847 (a5417e)",
-            "tipo": "Rutina",
-            "color": [
-                100,
-                180,
-                255,
-                200
-            ],
-            "size": 14,
-            "text": "✈"
-        },
-        {
-            "lat": 30.2382,
-            "lon": -90.7658,
-            "heading": 300.05,
-            "name": "Tráfico: N145CH (a0b57d)",
+            "lat": 43.6528,
+            "lon": 6.596,
+            "heading": 245.77,
+            "name": "Tráfico: WMT4KB (4d2022)",
             "tipo": "Rutina",
             "color": [
                 100,
